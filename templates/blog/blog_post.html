@@ -1,0 +1,104 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}Detail{% endblock %}
+{% block navigation_link %} 
+<a class="nav-link" href="{% url 'blog:blog_home' %}">All posts</a>  
+<a class="nav-link" href="{% url 'blog:my_blogs' %}">My blogs</a>
+{% endblock %}
+{% block body %}
+<!-- card (upload blogs)-->
+<div class="container">
+	<div class="row g-2">
+		<div class="col-md-12">	
+			<!-- card-->
+			<div class="card">
+				
+				   <!-- card header-->
+					<div class="card-header bg-info">
+						<div class="row g-2">
+							<div class="row g-2">
+								<div class="col-md-12">
+									<h5>{{post.author_name.username}}  <b class="post-time"> {{post.blog_post_time}}</b></h5>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- card body -->
+					<div class="blog-post-section p-2">
+						<h6>{{post.blog_title}}</h6>
+						<p>{{post.blog_content}}</p>	
+					</div>
+					<!-- card footer-->
+					<div class="card-footer bg-white">
+						<!-- footer buttons-->
+						<div class="row g-3">
+							<div class="col-md-4">
+								<form method="POST" action="{% url 'blog:postlike' %}">
+                  				{% csrf_token%}
+                				{% if is_liked %}
+                					<button type="submit" class="btn btn-primary btn-sm" id="footer-buttons" style="color:white;" name="post_id" value="{{post.id}}"><i class="bi bi-hand-thumbs-up-fill"></i>({{ total_likes }})</button>
+                				{% else %}
+                					<button type="submit" class="btn btn-outline-primary btn-sm" id="footer-buttons"  name="post_id" value="{{post.id}}"><i class="bi bi-hand-thumbs-up"></i>({{ total_likes }})</button>
+                				{% endif %}
+								</form>  
+							</div>
+							<div class="col-md-4">
+								<button type="button" class=" btn btn-outline-dark btn-sm"  id="footer-buttons" style="margin-left:70px;">
+								<i class="bi bi-chat-text-fill"></i> Comment({{comments.count}})
+								</button>
+							</div>
+							<div class="col-md-4">
+								<button type="button" class="btn btn-outline-dark btn-sm" style="float:right;"id="footer-buttons"> <i class="bi bi-eye-fill"></i> views (01)</button>
+							</div>
+							<div class="col-md-12">
+								<!--comment section -->
+								<form action="/blog/add_Comment" method="POST" class="row g-1"enctype="multipart/form-data">
+									<div class="form-group col-md-10">
+										{% csrf_token %}
+										<input class="form-control" name="comment" type="text" placeholder="write a comment here"/>
+										<input type="hidden" name="postSno" value="{{post.id}}">
+									</div>
+									<div class="form-group col-md-2">
+										<button type="submit" class="btn btn-success w-100">Upload</button>
+									</div>
+								</form>
+								<div class="row g-1">
+									<div class="col-md-8">
+										<div class="container">
+										 {% for comment in comments %}
+											<div class="row">
+												<div class="col-md-2">
+													<img src="{% static 'images/user_symbol.png' %}" class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="55" height="55" style="margin-left:20px;">
+												</div>
+												<div class="col-md-10">
+												<!-- comment display-->
+													<div class="cmmt-display">
+													<div class="row g-1">
+														<div class="col-md-8">
+															<h6 style="margin-left:-50px;">{{comment.user.username}}<b class="post-time"> {{comment.comment_time}}</b></h6>
+														</div>
+														<div class="col-md-2">
+														{% if request.user == comment.user %}
+														<a href="{% url 'blog:deletecomment' comment.id %}" role="button" id="comment_delete"class="btn btn-outline-secondary btn-sm">delete</a>
+														{% endif%}
+														</div>	
+														<div class="col-md-12">
+														<p style="font-family:Georgia;margin-left:-30px;margin-top:-10px;"> {{comment.comment}}</p>
+														</div>	
+													</div>	
+													</div>
+												</div>
+											</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>			
+							</div><!-- comment end -->
+						</div>	
+					</div><!--end of footer-->
+				
+			</div>	
+		</div>	
+	</div>
+</div>
+{% endblock %}	

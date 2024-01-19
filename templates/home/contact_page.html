@@ -1,0 +1,42 @@
+{% extends 'base_template.html' %}
+{% block title %}Contact page{% endblock %}
+{% block body %}
+<div class="form_box w-50 m-auto mt-4 shadow p-3">
+	<h2 class="text-center">Contact Us</h2>
+	<form action="/contact" method="POST" class="row g-2"><!-- form coloumn -->
+	{% csrf_token %}
+	<!-- name coloumn -->
+          <div class="col-md-6">
+				<label for="name"><b>Name:</b></label>
+			    <input type="text" class="form-control" id="input_box" placeholder="Enter your full name" name="name" required>
+          </div><br>
+		    	
+	<!--email coloumn -->
+          <div class="col-md-6">
+				  <label for="email"><b>Email:</b></label>
+			      <input type="email" class="form-control"  id="input_box" placeholder="Enter email" name="email" required>
+          </div><br>
+		  
+	<!-- mobile no. coloumn  -->
+          <div class="col-md-12">
+				  <label for="mobile_no"><b>Mobile number:</b></label>
+			      <input type="number" class="form-control"  id="input_box" placeholder="Enter your mobile number" name="mobile_no" required>
+          </div>
+		  
+	<!--  content coloumn -->
+		   <div class="col-md-12">
+				 <label for="about"><b>messege:</b></label>
+			     <textarea class="form-control" id="input_box" placeholder="Write here..." name="msg" style=" resize: none;height:150px;" required></textarea>
+          </div><br>
+		    
+	<!-- submit button coloumn  -->
+		  <div class="col-md-6">
+				<button type="submit"class="btn btn-success w-100 mt-2">Submit</button>
+		  </div>
+		  
+		   <div class="col-md-6">
+				<a class="btn btn-danger mt-2 w-100" href="{% url 'home:home' %}" role="button">cancel</a>
+		  </div>
+      </form><!-- end form coloumn -->
+</div>
+{% endblock %}

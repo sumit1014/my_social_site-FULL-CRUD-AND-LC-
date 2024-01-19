@@ -1,0 +1,56 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}photos home page{% endblock %}
+{% block navigation_link %}
+<a class="nav-link" href="{% url 'photos:photos_home' %}">All post</a>  
+<a class="nav-link" href="{% url 'photos:my_photos' %}">My photos</a> 
+{% endblock%}
+{% block body %}
+<!-- card (upload blogs)-->
+<div class="container">
+	<div class="row row-cols-1 row-cols-md-2 g-3">
+		{% for post in mypost %}
+		<div class="col-md-6" >
+			<!-- card-->
+			<div class="card mypost-card">
+				<!-- card header-->
+				<div class="card-header bg-info">
+					<div class="row g-1">
+						<div class="col-md-10">
+							<h5>@{{post.user.username}}  <b class="post-time">{{post.image_post_time}}</b></h5>  
+						</div>
+						<div class="col-md-2">
+							<div class="btn-group">
+							  	<button type="button" class="btn btn-outline-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="edit-button">
+									Edit
+							  	</button>
+							  	<ul class="dropdown-menu dropdown-menu-light my-1">
+									<li><a class="dropdown-item" href="{% url 'photos:update' post.id %}" role="button"><i class="bi bi-pen-fill"></i> Update</a></li>
+									<li><a class="dropdown-item" href="{% url 'photos:delete_photos' post.id %}" role="button"><i class="bi bi-trash-fill"></i> Delete</a></li>
+							  	</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- card body -->
+				<div class="card-body p-1 m-1">
+					
+                    {% if post.image %}
+                    <a href="/photos/{{post.pk}}"><img class="post-img" src="{{ post.image.url }}"></a>
+                    {% endif %}
+				</div> 
+				<!-- card footer-->
+				<div class="card-footer bg-white">
+					<div class="row">
+						<div class="col-md-12">
+							<a class=" btn btn-outline-dark btn-sm" href="/photos/{{post.pk}}" role="button">
+							Comments <i class="bi bi-arrow-right-square-fill"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}

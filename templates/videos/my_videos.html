@@ -1,0 +1,56 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}photos home page{% endblock %}
+{% block navigation_link %}
+<a class="nav-link" href="{% url 'videos:videos_home' %}">All post</a>  
+<a class="nav-link" href="{% url 'videos:my_videos' %}">My photos</a> 
+{% endblock%}
+{% block body %}
+<!-- card (upload blogs)-->
+<div class="container">
+	<div class="row row-cols-1 row-cols-md-2 g-3">
+		{% for post in mypost %}
+		<div class="col-md-6">
+			<!-- card-->
+			<div class="card mypost-card">
+				<!-- card header-->
+				<div class="card-header bg-info">
+					<div class="row g-1">
+						<div class="col-md-10">
+							<h5>@{{post.user.username}}  <b  class="post-time">{{post.video_post_time}}</b></h5>  
+						</div>
+						<div class="col-md-2">
+							<div class="btn-group">
+							  	<button type="button" class="btn btn-outline-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="edit-button">
+									Edit
+							  	</button>
+							  	<ul class="dropdown-menu dropdown-menu-light my-1">
+									<li><a class="dropdown-item" href="{% url 'videos:update' post.id %}" role="button"><i class="bi bi-pen-fill"></i> Update</a></li>
+									<li><a class="dropdown-item" href="{% url 'videos:delete_videos' post.id %}" role="button"><i class="bi bi-trash-fill"></i> Delete</a></li>
+							  	</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- card body -->
+				<div class="card-body p-1 m-1">
+                    <h6 class="media-caption">{{post.about_video}}</h6>
+                    <video  class="post-video" controls>
+                        <source type="video/mp4" src="{{ post.video.url }}">
+                    </video>
+				</div>
+				<!-- card footer-->
+				<div class="card-footer bg-white">
+					<div class="row">
+						<div class="col-md-12">
+							<a class=" btn btn-outline-dark  btn-sm" href="/videos/{{post.pk}}" role="button" id="footer-buttons">
+							Comments <i class="bi bi-arrow-right-square-fill"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}

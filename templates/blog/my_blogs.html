@@ -1,0 +1,53 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %} My Blog page{% endblock %}
+{% block navigation_link %} 
+<a class="nav-link" href="{% url 'blog:blog_home' %}">All posts</a>  
+<a class="nav-link" href="{% url 'blog:my_blogs' %}">My blogs</a>
+{% endblock %}
+{% block body %}
+<!-- card (upload blogs)-->
+<div class="container">
+	<div class="row row-cols-1 row-cols-md-2 g-3">
+		{% for post in mypost  %}
+		<div class="col">	
+			<!-- card-->
+			<div class="card" style="height:350px;">
+				 <!-- card header-->
+					<div class="card-header bg-info">
+						<div class="row g-2">
+							<div class="col-md-10">
+								<h5>{{post.author_name.username}}  <b class="post-time"> {{post.blog_post_time}}</b></h5>
+							</div>
+							<div class="col-md-2">
+								<div class="btn-group">
+							  		<button type="button" class="btn btn-outline-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="edit-button">
+										Edit
+							  		</button>
+							  		<ul class="dropdown-menu dropdown-menu-light my-1">
+										<li><a class="dropdown-item" href="{% url 'blog:update' post.id %}" role="button"><i class="bi bi-pen-fill"></i> Update</a></li>
+										<li><a class="dropdown-item" href="{% url 'blog:delete' post.id %}" role="button"><i class="bi bi-trash-fill"></i> Delete</a></li>
+							  		</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- card body -->
+					<div class="blog-post-section p-2">
+						<h6>{{post.blog_title}}</h6>
+						{% if post.blog_content|length >= 500 %}
+						<p>{{post.blog_content| truncatechars:500}}<br><a href="/blog/{{post.slug}}" class="cont_reading">Continue Reading</a></p>
+						{%else%}
+						<p>{{post.blog_content}}</p>
+						{% endif %}		
+					</div>
+				<!-- card footer-->	
+			</div>	
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}	
+
+
+

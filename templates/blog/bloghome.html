@@ -1,0 +1,90 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}Blog home page{% endblock %}
+{% block navigation_link %}
+<a class="nav-link" href="{% url 'blog:blog_home' %}">All posts</a>  
+<a class="nav-link" href="{% url 'blog:my_blogs' %}">My blogs</a> 
+{% endblock%}
+{% block body %}
+<!-- card (upload blogs)-->
+<div class="container">
+	<div class="row g-2">
+		<div class="col-md-2">
+		</div>
+
+		<div class="col-md-8">
+			<div class="card mb-3" id="create_post">
+				<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
+				<i class="bi bi-pencil-square"></i> Create Post</button>
+			<!-- Modal -->
+			</div>
+			<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header" style="height:40px;">
+							<h5 class="modal-title" id="staticBackdropLabel"> Write something in your Post...</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+					<div class="modal-body">
+						<form action="/blog/createblog" method="POST" class="row g-1">
+							{% csrf_token %}
+							<div class="col-md-12">
+								<h6>Title</h6>
+								<input type="text" class="form-control" id="title_box" placeholder="write title of the blog" name="blog_title">
+							</div>
+
+							<div class="col-md-12">
+								<h6>Content</h6>
+								<textarea class="form-control  my-2" id="content_box" placeholder="Write something here..." name="blog_content"></textarea>
+							</div>
+					 		
+							<div class="col-md-12">
+								<button type="submit" class="btn btn-success w-100" value="confirm">Upload</button>
+							</div>
+							<div class="col-md-12">
+				  				<a class="btn btn-danger w-100" href="{% url 'blog:blog_home' %}" role="button" >cancel</a>
+		  					</div>
+						</form>
+					</div>
+					</div>
+				</div>
+			</div>
+				
+			<!-- card-->
+			{% for post in allPosts  %}
+			<div class="card mb-3">
+					<!-- card header-->
+					<div class="card-header bg-info">
+						<div class="row g-2">
+							<div class="col-md-12">
+								<h5>{{post.author_name.username}}  <b class="post-time"> {{post.blog_post_time}}</b></h5>
+							</div>
+						</div>
+					</div>
+					<!-- card body -->
+					<div class="blog-post-section p-2">
+						<h6>{{post.blog_title}}</h6>
+						{% if post.blog_content|length > 550 %}
+						<p>{{post.blog_content| truncatechars:550}}<br><a href="/blog/{{post.slug}}" class="cont_reading">Continue Reading</a></p>
+						{% else %}
+						<p>{{post.blog_content}}</p>
+						{% endif %}	
+					</div>
+					<!-- card (footer)-->
+					<div class="card-footer bg-white">
+						<div class="row">
+							<div class="col-md-12">
+								<a class=" btn btn-outline-dark btn-sm" href="/blog/{{post.slug}}" role="button">
+									Comments <i class="bi bi-arrow-right-square-fill"></i></a>
+							</div>
+						</div>
+					</div>
+			</div>
+			{% endfor %}	
+		</div>
+
+		<div class="col-md-2">
+		</div>	
+	</div>
+</div>
+{% endblock %}	

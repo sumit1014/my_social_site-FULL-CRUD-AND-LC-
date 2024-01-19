@@ -1,0 +1,56 @@
+{% extends 'base_template.html' %}
+{% block title %}Signup page{% endblock %}
+{% block body %}
+<!--registration form  -->
+<div class="form_box w-50 m-auto mt-4 shadow p-3 ">
+	<h4 class="text-center">Create Your Account Here</h4><br>
+	<form  action="/signup" method="POST" class="row g-2">
+	{% csrf_token %}
+	<!-- first name coloumn -->
+          <div class="col-md-6">
+				<label for="username"><b>First Name:</b></label>
+			    <input type="text" class="form-control" id="input_box" placeholder="Enter Your name" name="fname" Required>
+          </div><br>
+		  
+	<!--  username coloumn -->
+		   <div class="col-md-6">
+				  <label for="username"><b>Last Name:</b></label>
+			      <input type="text" class="form-control" id="input_box" placeholder="Enter username" name="lname" Required>
+          </div><br>
+		  
+	<!-- birthdate coloumn -->
+		    <div class="col-md-6">
+				<label for="username"><b>Username:</b></label>
+			    <input type="text" class="form-control" id="input_box" placeholder="Enter Your name" name="username" Required>
+          </div><br>
+			
+	
+	<!--email coloumn -->
+          <div class="col-md-6">
+				  <label for="email"><b>Email:</b></label>
+			      <input type="email" class="form-control"  id="input_box" placeholder="Enter email" name="email" Required>
+          </div><br>
+			
+	<!-- password1 coloumn -->
+          <div class="col-md-6">
+				  <label for="password1"><b> Choose a password:</b></label>
+			      <input type="password" class="form-control br-dashed"  id="input_box" placeholder="Enter password" name="pass1" Required>
+          </div>
+
+		  
+	<!-- password2 coloumn  -->
+          <div class="col-md-6">
+				  <label for="password2"><b>Confirm Password:</b></label>
+			      <input type="password" class="form-control"  id="input_box" placeholder="confirm password" name="pass2" Required>
+          </div>
+		  
+	<!-- signup button coloumn  -->
+		  <div class="col-md-12 mt-3">
+				  <button type="submit" class="btn btn-success btn-block w-100">Sign up</button>
+		  </div>
+		  <div class="col-md-12">
+				<a class="btn btn-danger w-100" href="{% url 'home:home' %}" role="button">cancel</a>
+		  </div>
+      </form>
+</div>
+{% endblock %}

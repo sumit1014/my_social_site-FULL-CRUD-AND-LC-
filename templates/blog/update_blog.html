@@ -1,0 +1,42 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %} Update Blog page{% endblock %}
+{% block navigation_link %}
+<a class="nav-link" href="{% url 'blog:blog_home' %}">All posts</a>  
+<a class="nav-link" href="{% url 'blog:my_blogs' %}">My blogs</a> 
+{% endblock%}
+{% block body %}
+<!-- card (upload blogs)-->
+<div class="container">
+	<div class="row g-2">
+	<div class="col-md-1">
+    </div>
+		<div class="col-md-10">
+			<div class="card shadow p-3">
+					<form  method="POST" class="row g-2"enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="col-md-12">
+							<h5 class="text" >Update your blog...</h5>
+						</div>
+						<div class="col-md-12">
+							<h6>Title</h6>
+							{{form.blog_title}}
+						</div>
+						<div class="col-md-12">
+							<h6>Content</h6>
+							{{form.blog_content}}
+						</div>
+					 	<div class="col-md-12">
+							<button type="submit" class="btn btn-success w-100">Update</button>
+						</div>
+						<div class="col-md-12">
+				  			<a class="btn btn-danger w-100" href="{% url 'blog:blog_home' %}" role="button" id="all-button">cancel</a>
+		  				</div>
+					</form>
+			 </div>	
+		</div>
+	<div class="col-md-1">
+    </div>	
+	</div>
+</div>
+{% endblock %}	

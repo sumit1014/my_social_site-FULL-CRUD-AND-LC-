@@ -1,0 +1,90 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block title %}videos home page{% endblock %}
+{% block navigation_link %}
+<a class="nav-link" href="{% url 'videos:videos_home' %}">All post</a>  
+<a class="nav-link" href="{% url 'videos:my_videos' %}">My videos</a> 
+{% endblock%}
+{% block body %}
+<!-- card (upload blogs)-->
+<div class="container">
+	<div class="row g-2">
+		<div class="col-md-3">
+		</div>
+		<div class="col-md-6">
+			<div class="card mb-3" id="create_post">
+			<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop"id="all-button">
+			<i class="bi bi-pencil-square"></i> Create Post</button>
+			<!-- Modal -->
+			</div>
+			<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header" style="height:40px;">
+							<h5 class="modal-title" id="staticBackdropLabel"> Upload your videos here...</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+					<div class="modal-body">
+						<form action="/videos/add_videos" method="POST" class="row g-2" enctype="multipart/form-data">
+							{% csrf_token %}
+							<div class="col-md-12">
+								<h6>About</h6>
+								<input type="text" class="form-control" id="title_box" placeholder="write somehting about....." name="about_video">
+							</div>
+
+							<div class="col-md-12">
+								<h6>Add video</h6>
+								<input type="file" class="form-control" name="video">
+							</div>
+					 		
+							<div class="col-md-12">
+								<button type="submit" class="btn btn-success w-100" value="confirm">Upload</button>
+							</div>
+							<div class="col-md-12">
+				  				<a class="btn btn-danger w-100" href="{% url 'videos:videos_home' %}" role="button">cancel</a>
+		  					</div>
+						</form>
+					</div>
+					</div>
+				</div>
+			</div>
+				
+			<!-- card-->
+			{% for post in allPosts  %}
+			<div class="card mb-3">
+				
+				<!-- card header-->
+					<div class="card-header bg-info">
+						<div class="row">
+							<div class="col-md-12">
+								<h5>{{post.user.username}}  <b class="post-time">{{post.video_post_time}}</b></h5>
+							</div>
+						</div>
+					</div>
+					<!-- card body -->
+					<div class="card-body p-1 m-1">
+						<h6 class="media-caption">{{post.about_video}}</h6>
+                        {% if post.video %}
+                        <video  class="post-img" controls>
+                        <source type="video/mp4" src="{{ post.video.url }}">
+                        </video>
+                        {% endif %}   
+					</div>
+					<!-- card footer-->
+					<div class="card-footer bg-white">
+						<div class="row">
+							<div class="col-md-12">
+								<a class=" btn btn-outline-dark btn-sm" href="/videos/{{post.pk}}" role="button">
+								Comments <i class="bi bi-arrow-right-square-fill"></i></a>
+							</div>
+						</div>
+					</div>
+				
+			</div>
+			{% endfor %}	
+		</div>
+		<div class="col-md-3">
+		</div>	
+	</div>
+</div>
+{% endblock %}
